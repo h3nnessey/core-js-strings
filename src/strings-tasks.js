@@ -482,8 +482,27 @@ function extractEmails(str) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  const alphabet = new Array(26)
+    .fill(null)
+    .map((_, index) => String.fromCharCode(index + 97));
+
+  return str
+    .split('')
+    .map((char) => {
+      const lowercasedChar = char.toLowerCase();
+
+      if (alphabet.includes(lowercasedChar)) {
+        const isUpperCased = char !== lowercasedChar;
+        const rot13Char =
+          alphabet[(alphabet.indexOf(lowercasedChar) + 13) % 26];
+
+        return isUpperCased ? rot13Char.toUpperCase() : rot13Char;
+      }
+
+      return char;
+    })
+    .join('');
 }
 
 /**
